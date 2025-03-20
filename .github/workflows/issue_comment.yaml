@@ -10,4 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "dump github context"
-        run: echo '${{ toJSON(github) }}' | jq
+        run: echo '${{ toJSON(github.event) }}' | jq
+      - name: Create a comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          body: |
+            This is a multi-line test comment
+            - With GitHub **Markdown** :sparkles:
+            - Created by [create-or-update-comment][1]
