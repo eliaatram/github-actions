@@ -19,3 +19,21 @@ jobs:
             This is a multi-line test comment
             - With GitHub **Markdown** :sparkles:
             - Created by [create-or-update-comment][1]
+
+  comment-with-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create comment with API
+        run: |
+          gh api \
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          /repos/${OWNER}/${REPOSITORY}/issues/${ISSUE_NUMBER}/comments \
+          -f "body=Me too"
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.event.user.login }}
+          REPOSITORY: ${{ github.event.repository.name }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
